@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      *{box-sizing:border-box}
+      body{margin:0}
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #FFFFFF;
+        font-family: 'Open Sans', sans-serif;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+      }
+      .diagonal-accent-top {
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 400px;
+        height: 200px;
+        background: linear-gradient(135deg, #1A237E 50%, #BF9B30 50%);
+        transform: rotate(-15deg);
+      }
+      .content-wrapper {
+        display: flex;
+        width: 100%;
+        align-items: center;
+      }
+      .text-side {
+        width: 60%;
+        padding-top: 60px; /* keep title upper padding */
+        padding-left: 80px;
+      }
+      .logo-mini {
+        width: 50px;
+        height: 50px;
+        background-color: #1A237E;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 20px; /* shrunk */
+      }
+      h2 {
+        font-family: 'Montserrat', sans-serif;
+        color: #1A237E;
+        font-size: 48px;
+        margin-bottom: 40px;
+        line-height: 1.2;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      li {
+        font-size: 24px;
+        color: #37474F;
+        margin-bottom: 18px; /* shrunk */
+        display: flex;
+        align-items: flex-start;
+      }
+      li i {
+        color: #1A237E;
+        margin-right: 20px;
+        margin-top: 4px; /* small adjust */
+        font-size: 18px;
+      }
+      .image-side {
+        width: 40%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #F9F9F9;
+      }
+      .truck-placeholder {
+        width: 400px;
+        height: 460px; /* reduced */
+        background-color: #E0E0E0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #757575;
+        font-style: italic;
+        text-align: center;
+        padding: 16px; /* slightly reduced */
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="diagonal-accent-top"></div>
+        <div class="content-wrapper">
+            <div class="text-side">
+                <div class="logo-mini">U</div>
+                <h2>Renovação de frota com previsibilidade.</h2>
+                <ul>
+                    <li><i class="fas fa-circle"></i> <span>A HI Transportes iniciou um novo ciclo de renovação de frota;</span></li>
+                    <li><i class="fas fa-circle"></i> <span>Parte dos cavalos mecânicos da operação foi direcionada à Uny FleetCom;</span></li>
+                    <li><i class="fas fa-circle"></i> <span>O programa organiza a disponibilização dos ativos com regras contratuais claras.</span></li>
+                </ul>
+            </div>
+            <div class="image-side">
+                <div class="truck-placeholder">
+                    [Imagem Frontal do Caminhão Volvo]
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

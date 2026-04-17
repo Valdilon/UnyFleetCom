@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #FFFFFF;
+        font-family: 'Open Sans', sans-serif;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+      }
+      .diagonal-accent-top {
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 400px;
+        height: 200px;
+        background: linear-gradient(135deg, #1A237E 50%, #BF9B30 50%);
+        transform: rotate(-15deg);
+      }
+      .content-wrapper {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+      }
+      .text-side {
+        width: 55%;
+        padding-top: 60px; /* keep title top padding */
+        padding-left: 80px;
+      }
+      .logo-mini {
+        width: 50px;
+        height: 50px;
+        background-color: #1A237E;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 10px; /* shrunk */
+      }
+      h2 {
+        font-family: 'Montserrat', sans-serif;
+        color: #1A237E;
+        font-size: 48px;
+        margin-bottom: 18px; /* reduced spacing */
+        line-height: 1.2;
+      }
+      .responsibility-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 14px; /* reduced */
+      }
+      .responsibility-item {
+        font-size: 22px;
+        color: #37474F;
+        margin-bottom: 10px; /* reduced */
+        line-height: 1.4;
+      }
+      .highlight-box {
+        color: #BF9B30;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        padding-top: 10px; /* reduced */
+        border-top: 2px solid #BF9B30;
+        max-width: 500px;
+      }
+      .footer-note {
+        position: absolute;
+        bottom: 40px;
+        left: 80px;
+        font-size: 14px;
+        color: #78909C;
+      }
+      .image-side {
+        width: 45%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* bring items up */
+        padding-top: 8px; /* reduced to pull content up */
+        background-color: #F5F5F5;
+      }
+      .image-box {
+        width: 450px;
+        height: 260px; /* reduced from 300 */
+        background-color: #E0E0E0;
+        margin-bottom: 8px; /* reduced */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #757575;
+        font-style: italic;
+        text-align: center;
+      }
+      .image-box.small {
+        height: 100px; /* reduced from 120 */
+        width: 300px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="diagonal-accent-top"></div>
+        <div class="content-wrapper">
+            <div class="text-side">
+                <div class="logo-mini">U</div>
+                <h2>Responsabilidade operacional é integral.</h2>
+                <ul class="responsibility-list">
+                    <li class="responsibility-item">A locatária responde pela posse, guarda, utilização e conservação do ativo.</li>
+                    <li class="responsibility-item">Também assume manutenção preventiva e corretiva.</li>
+                    <li class="responsibility-item">Custos de pneus, recapagens e desgaste operacional ficam sob sua responsabilidade.</li>
+                    <li class="responsibility-item">Preservação do rastreador, sistemas embarcados e equipamentos instalados.</li>
+                </ul>
+                <div class="highlight-box">
+                    Manutenção, conservação e operação sob responsabilidade da locatária.
+                </div>
+            </div>
+            <div class="image-side">
+                <div class="image-box">
+                    [Imagem do Estofamento Interno]
+                </div>
+                <div class="image-box small">
+                    [Imagem do Caminhão]
+                </div>
+            </div>
+        </div>
+        <div class="footer-note">Apresentação institucional baseada em ativo real.</div>
+    </div>
+</body>
+</html>

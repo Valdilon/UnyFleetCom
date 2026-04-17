@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      .slide-container {
+        width: 1280px;
+        min-height: 720px; /* keep required min-height */
+        background-color: #FFFFFF;
+        font-family: 'Open Sans', sans-serif;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+      }
+      .diagonal-accent-top {
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 400px;
+        height: 200px;
+        background: linear-gradient(135deg, #1A237E 50%, #BF9B30 50%);
+        transform: rotate(-15deg);
+      }
+      .content-wrapper {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+      }
+      .text-side {
+        width: 55%;
+        padding-top: 60px; /* keep title top padding as required */
+        padding-left: 80px;
+      }
+      .logo-mini {
+        width: 50px;
+        height: 50px;
+        background-color: #1A237E;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 18px;
+      }
+      h2 {
+        font-family: 'Montserrat', sans-serif;
+        color: #1A237E;
+        font-size: 48px;
+        margin-bottom: 36px;
+        line-height: 1.2;
+      }
+      .feature-list {
+        list-style: none;
+        padding: 0;
+      }
+      .feature-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .feature-icon {
+        width: 40px;
+        color: #BF9B30;
+        font-size: 24px;
+        margin-right: 20px;
+        text-align: center;
+      }
+      .feature-text {
+        font-size: 26px;
+        color: #37474F;
+        font-weight: 400;
+      }
+      .footer-note {
+        position: absolute;
+        bottom: 40px;
+        left: 80px;
+        font-size: 14px;
+        color: #78909C;
+      }
+      .image-side {
+        width: 45%;
+        /* remove full height so it doesn't force overflow; let content size naturally */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* anchor to top to reduce vertical spread */
+        padding-top: 20px; /* reduced to save vertical space */
+        background-color: #F5F5F5;
+        box-sizing: border-box;
+      }
+      .image-box {
+        width: 450px;
+        height: 200px; /* reduced from 240px to save 40px */
+        background-color: #E0E0E0;
+        margin-bottom: 8px; /* reduced spacing */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #757575;
+        font-style: italic;
+        text-align: center;
+      }
+      .image-box.small {
+        height: 120px; /* reduced from 160px to save 40px */
+        width: 400px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="diagonal-accent-top"></div>
+        <div class="content-wrapper">
+            <div class="text-side">
+                <div class="logo-mini">U</div>
+                <h2>Veículo entregue pronto para operar.</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="feature-text">Veículo revisado</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-truck-monster"></i></div>
+                        <div class="feature-text">10 pneus novos</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-satellite-dish"></i></div>
+                        <div class="feature-text">Rastreador satelital OnixSat instalado</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="feature-text">Garantia de 3 meses nos termos do programa</div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-side">
+                <div class="image-box">
+                    [Imagem do Interior da Cabine]
+                </div>
+                <div class="image-box small">
+                    [Imagem do Caminhão Externo]
+                </div>
+            </div>
+        </div>
+        <div class="footer-note">Apresentação institucional baseada em ativo real.</div>
+    </div>
+</body>
+</html>
