@@ -536,24 +536,63 @@
       background: var(--branco);
       border: 1px solid var(--borda);
       border-radius: var(--radius);
-      padding: 16px 24px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
       font-size: 11px;
       color: var(--muted);
       box-shadow: var(--sombra);
     }
 
-    .footer-logos {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .footer-note-right {
+      width: 100%;
+      text-align: right;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: -6px;
+      padding: 0 2px;
     }
 
-    .footer-logos img { height: 26px; }
+    .footer-contact {
+      display: flex;
+      align-items: center;
+      gap: 10px 18px;
+      flex-wrap: wrap;
+      margin-left: 0;
+    }
+
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--azul);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .contact-item:hover {
+      text-decoration: underline;
+    }
+
+    .contact-icon {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-icon img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
 
     /* ── Responsivo ────────────────────────────────────────── */
     @media (max-width: 780px) {
@@ -599,6 +638,10 @@
       .nav-grupo { justify-content: center; }
       .nav-btn-cta { justify-content: center; }
       .nav-dica { justify-content: center; }
+
+      .footer-contact {
+        margin-left: 0;
+      }
     }
 
     @media (max-width: 480px) {
@@ -958,17 +1001,27 @@
 
   <!-- ── FOOTER ── -->
   <footer class="footer">
-    <div class="footer-logos">
-      <img src="assets/ppt_media/image16.svg" alt="Logo Uny" />
-      <img src="assets/ppt_media/image17.svg" alt="Logo FleetCom" />
+    <div class="footer-contact" aria-label="Contatos">
+      <a class="contact-item" href="mailto:contato@unyfleetcom.com.br" aria-label="Enviar e-mail para contato arroba unyfleetcom ponto com ponto br">
+        <span class="contact-icon" aria-hidden="true">
+          <img src="assets/ppt_media/image16.svg" alt="" />
+        </span>
+        <span>contato@unyfleetcom.com.br</span>
+      </a>
+      <a class="contact-item" href="tel:+553541040012" aria-label="Ligar para mais cinquenta e cinco trinta e cinco quatro um zero quatro traço zero zero um dois">
+        <span class="contact-icon" aria-hidden="true">
+          <img src="assets/ppt_media/image17.svg" alt="" />
+        </span>
+        <span>+55 35 4104-0012</span>
+      </a>
     </div>
     <div>
-      * Volvo FH 440 — imagens para fins ilustrativos. Volvo é marca registrada da Volvo Trademark Holding AB.
-    </div>
-    <div>
-      © <span class="brand-mark">Uny FleetCom<sup>®</sup></span> — material institucional, não substitui proposta nem contrato específico.
+      © <span class="brand-mark">Uny FleetCom<sup>®</sup></span> 2026 — material institucional, não substitui proposta nem contrato específico.
     </div>
   </footer>
+  <div class="footer-note-right">
+    * Volvo FH 440 — imagens para fins ilustrativos. Volvo é marca registrada da Volvo Trademark Holding AB.
+  </div>
 
 </div><!-- /page -->
 
