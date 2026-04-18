@@ -1066,26 +1066,31 @@
     btnFim.disabled      = idx === total - 1;
   }
 
+  function enquadrarSlideAtual() {
+    slides[idx].scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function navegarComEnquadramento(novoIdx) {
+    ir(novoIdx);
+    enquadrarSlideAtual();
+  }
+
   // inicializa
   ir(0);
 
   // eventos
-  btnInicio.addEventListener  ("click", () => ir(0));
-  btnAnterior.addEventListener("click", () => ir(idx - 1));
-  btnProximo.addEventListener ("click", () => ir(idx + 1));
-  btnFim.addEventListener     ("click", () => ir(total - 1));
+  btnInicio.addEventListener  ("click", () => navegarComEnquadramento(0));
+  btnAnterior.addEventListener("click", () => navegarComEnquadramento(idx - 1));
+  btnProximo.addEventListener ("click", () => navegarComEnquadramento(idx + 1));
+  btnFim.addEventListener     ("click", () => navegarComEnquadramento(total - 1));
 
   btnIniciar.addEventListener("click", () => {
-    document.querySelector(".slider-shell")
-      .scrollIntoView({ behavior: "smooth", block: "start" });
-    ir(0);
+    navegarComEnquadramento(0);
   });
 
   // "Ver proposta ilustrativa" → slide 8 (índice 7)
   btnProposta.addEventListener("click", () => {
-    document.querySelector(".slider-shell")
-      .scrollIntoView({ behavior: "smooth", block: "start" });
-    ir(7);
+    navegarComEnquadramento(7);
   });
 
   // teclado
