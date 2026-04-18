@@ -2,805 +2,1039 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Programa de Locação com Opção de Compra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --azul: #1a237e;
-      --ouro: #bf9b30;
-      --txt: #1f2937;
-      --bg: #f6f7fb;
-      --safe-top: env(safe-area-inset-top);
-      --safe-right: env(safe-area-inset-right);
-      --safe-bottom: env(safe-area-inset-bottom);
-      --safe-left: env(safe-area-inset-left);
-    }
+  <title>Uny FleetCom – Programa de Locação com Opção de Compra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
 
-    * { box-sizing: border-box; }
+  <style>
+    /* ── Reset e base ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:      #022b3a;
+      --verde:     #00b894;
+      --branco:    #ffffff;
+      --bg:        #f4f6f9;
+      --cinza:     #e8eaee;
+      --texto:     #1a1f2e;
+      --muted:     #6b7280;
+      --borda:     #d0d5dd;
+      --radius:    14px;
+      --sombra:    0 4px 24px rgba(0,0,0,.10);
+    }
 
     html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      min-height: 100dvh;
-      overflow: hidden;
-      font-family: 'Open Sans', sans-serif;
       background: var(--bg);
-      color: var(--txt);
+      color: var(--texto);
+      font-family: "Open Sans", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
     }
 
-    .deck {
-      width: 100%;
-      height: 100%;
-      min-height: 100dvh;
-      position: relative;
-    }
+    img { display: block; max-width: 100%; }
+    button { font-family: inherit; cursor: pointer; }
 
-    .slide {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 1.6rem;
-      padding: clamp(20px, 3vw, 44px);
-      padding-top: max(clamp(20px, 3vw, 44px), calc(var(--safe-top) + 12px));
-      padding-right: max(clamp(20px, 3vw, 44px), calc(var(--safe-right) + 14px));
-      padding-bottom: max(clamp(20px, 3vw, 44px), calc(var(--safe-bottom) + 26px));
-      padding-left: max(clamp(20px, 3vw, 44px), calc(var(--safe-left) + 14px));
-      opacity: 0;
-      transition: opacity 1000ms ease;
-      pointer-events: none;
-      --img-max-height: min(100vh, 930px);
-      --img-max-width: 150%;
-      --img-mobile-max-height: 60vh;
-      background:
-        linear-gradient(110deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.86) 48%, rgba(255, 255, 255, 0.70) 100%),
-        radial-gradient(circle at 15% 15%, rgba(26, 35, 126, 0.08), transparent 38%),
-        radial-gradient(circle at 85% 90%, rgba(191, 155, 48, 0.10), transparent 40%),
-        url("assets/ppt_media/image3.jpeg") center center / cover no-repeat;
-      box-shadow: none;
-    }
-
-    .slide::before {
-      content: "";
-      position: absolute;
-      top: 54px;
-      left: 36px;
-      width: 54px;
-      height: 54px;
-      background: url("assets/ppt_media/image2.png") center / contain no-repeat;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .slide:first-of-type {
-      background:
-        linear-gradient(110deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.86) 48%, rgba(255, 255, 255, 0.70) 100%),
-        radial-gradient(circle at 15% 15%, rgba(26, 35, 126, 0.08), transparent 38%),
-        radial-gradient(circle at 85% 90%, rgba(191, 155, 48, 0.10), transparent 40%),
-        url("assets/ppt_media/image1.jpeg") center center / cover no-repeat;
-    }
-
-    .slide:first-of-type::before {
-      width: 162px;
-      height: 162px;
-    }
-
-      .slide:nth-of-type(1) { --img-max-height: min(100vh, 1020px); --img-max-width: 150%; }
-      .slide:nth-of-type(2) { --img-max-height: min(100vh, 930px); --img-max-width: 141%; }
-      .slide:nth-of-type(3) { --img-max-height: min(100vh, 900px); --img-max-width: 138%; }
-      .slide:nth-of-type(4) { --img-max-height: min(100vh, 840px); --img-max-width: 132%; }
-      .slide:nth-of-type(5) { --img-max-height: min(100vh, 863px); --img-max-width: 132%; }
-      .slide:nth-of-type(6) { --img-max-height: min(93vh, 750px); --img-max-width: 123%; }
-      .slide:nth-of-type(7) { --img-max-height: min(100vh, 818px); --img-max-width: 129%; }
-      .slide:nth-of-type(8) { --img-max-height: min(96vh, 765px); --img-max-width: 123%; }
-      .slide:nth-of-type(9) { --img-max-height: min(90vh, 720px); --img-max-width: 120%; }
-      .slide:nth-of-type(10) { --img-max-height: min(93vh, 750px); --img-max-width: 123%; }
-      .slide:nth-of-type(11) { --img-max-height: min(100vh, 818px); --img-max-width: 129%; }
-
-    .slide.active {
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 4;
-    }
-
-    .slide.before {
-      opacity: 0;
-      z-index: 3;
-    }
-
-    .slide.after {
-      opacity: 0;
-      z-index: 2;
-    }
-
-    .slide::after {
-      display: none;
-    }
-
-    .slide > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .left {
+    /* ── Página wrapper ────────────────────────────────────── */
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 20px 20px 40px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      gap: 2px;
-      min-width: 0;
+      gap: 20px;
     }
 
-    .kicker {
-      display: inline-block;
-      font-family: 'Montserrat', sans-serif;
+    /* ── Header ────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      box-shadow: var(--sombra);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--verde), #0ea5e9);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-family: "Montserrat", sans-serif;
       font-weight: 700;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: 15px;
       color: var(--azul);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      font-size: clamp(11px, 1vw, 14px);
-      margin-bottom: 12px;
-      width: fit-content;
     }
 
-    .slide:first-of-type .kicker {
-      text-transform: none;
-      font-size: clamp(16px, 2vw, 24px);
-      margin-bottom: 18px;
+    .brand-sub {
+      font-size: 12px;
+      color: var(--muted);
     }
 
-    h1, h2 {
-      margin: 0 0 14px;
-      color: var(--azul);
-      font-family: 'Montserrat', sans-serif;
-      line-height: 1.15;
-    }
-
-    h1 { font-size: clamp(28px, 4.3vw, 58px); }
-    h2 { font-size: clamp(24px, 3.4vw, 45px); }
-
-    .slide:first-of-type h1 {
-      font-size: clamp(36px, 5.2vw, 72px);
-      margin-bottom: 24px;
-    }
-
-    p {
-      margin: 0 0 10px;
-      font-size: clamp(15px, 1.35vw, 22px);
-      line-height: 1.45;
-    }
-
-    .bullets {
-      margin: 10px 0 0;
-      padding-left: 18px;
-      display: grid;
-      gap: 10px;
-      font-size: clamp(15px, 1.35vw, 22px);
-    }
-
-    .bullets li::marker { color: var(--ouro); }
-
-    .stats {
-      margin-top: 12px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .badge {
+    .header-badge {
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--borda);
+      color: var(--muted);
+      background: var(--bg);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      padding: 8px 14px;
-      width: fit-content;
-      color: #fff;
-      background: linear-gradient(120deg, var(--azul), #283593);
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(13px, 1.1vw, 18px);
-      font-weight: 700;
+      gap: 6px;
     }
 
-    .right {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 0;
-      overflow: hidden;
+    .dot-verde {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--verde);
+      flex-shrink: 0;
     }
 
-    .image-wrap {
-      width: 100%;
-      max-width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .image-wrap.framed {
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 16px 30px rgba(18, 22, 40, .16);
-      background: #e8ebf2;
-    }
-
-    .image-wrap.plain {
-      border-radius: 0;
-      overflow: visible;
-      box-shadow: none;
-      background: transparent;
-      padding: 0;
-    }
-
-    .image-wrap img {
-      display: block;
-      width: 100%;
-      height: auto;
-      max-height: var(--img-max-height);
-      object-fit: contain;
-      object-position: center;
-    }
-
-    .image-wrap.plain img {
-      width: auto;
-      max-width: var(--img-max-width);
-    }
-
-    .split-images {
-      width: 100%;
+    /* ── Hero ──────────────────────────────────────────────── */
+    .hero {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      box-shadow: var(--sombra);
       display: grid;
-      gap: 14px;
-      grid-template-rows: 1fr 0.75fr;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      padding: 28px 28px 24px;
+      align-items: center;
     }
 
-    .small-note {
-      margin-top: 12px;
-      color: #5f6675;
-      font-size: clamp(12px, 1vw, 14px);
+    .hero-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--verde);
+      font-weight: 600;
+      margin-bottom: 8px;
     }
 
-    .footnote {
-      margin-top: 20px;
-      color: #8a8f99;
-      font-size: clamp(10px, 0.9vw, 12px);
-      line-height: 1.4;
-      border-top: 1px solid #d9dce6;
-      padding-top: 12px;
+    .hero-titulo {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: clamp(20px, 2vw + 12px, 28px);
+      color: var(--azul);
+      line-height: 1.25;
+      margin-bottom: 10px;
     }
 
-    .slide:last-of-type .footnote {
-      position: absolute;
-      right: max(clamp(20px, 3vw, 44px), calc(var(--safe-right) + 14px));
-      bottom: max(18px, calc(var(--safe-bottom) + 18px));
-      max-width: min(88%, 820px);
-      margin: 0;
-      text-align: right;
+    .hero-desc {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
     }
 
-    .proposal {
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--borda);
+      background: var(--bg);
+      color: var(--muted);
+    }
+
+    .hero-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--azul);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(2,43,58,.30);
+      transition: background .15s, transform .15s;
+    }
+
+    .hero-btn:hover { background: #011c27; transform: translateY(-1px); }
+
+    .hero-img-card {
+      background: var(--bg);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+
+    .hero-img-card img {
+      border-radius: 10px;
       width: 100%;
-      border-collapse: collapse;
-      font-size: clamp(14px, 1.2vw, 20px);
-      background: rgba(255,255,255,.86);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 18px rgba(20, 24, 44, .10);
+      object-fit: cover;
     }
 
-    .proposal td {
-      border-bottom: 1px solid #d9dce6;
+    .hero-img-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+
+    .meta-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+
+    .meta-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--azul);
+    }
+
+    /* ── Slider shell ──────────────────────────────────────── */
+    .slider-shell {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      box-shadow: var(--sombra);
+      padding: 20px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* cabeçalho do slider */
+    .slider-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .slider-head-title {
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      flex: 1;
+      min-width: 160px;
+      justify-content: flex-end;
+    }
+
+    .progress-label { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .progress-label strong { color: var(--azul); }
+
+    .progress-bar-bg {
+      flex: 1;
+      max-width: 160px;
+      height: 5px;
+      background: var(--cinza);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--verde), #0ea5e9);
+      width: 10%;
+      transition: width .25s ease;
+    }
+
+    /* ── Slide ─────────────────────────────────────────────── */
+    .slide { display: none; }
+    .slide.ativo { display: grid; }
+
+    .slide {
+      grid-template-columns: 1fr 300px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    /* painel de texto */
+    .slide-texto {
+      background: var(--bg);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+
+    .slide-titulo {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--azul);
+      margin-bottom: 8px;
+    }
+
+    .slide-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .slide-lista {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slide-lista li {
+      display: flex;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--texto);
+      align-items: flex-start;
+    }
+
+    .slide-lista li::before {
+      content: "";
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--verde);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    /* painel de imagem */
+    .slide-visual {
+      background: var(--bg);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slide-visual img {
+      border-radius: 10px;
+      width: 100%;
+      object-fit: cover;
+      max-height: 200px;
+    }
+
+    .slide-visual-legenda {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .slide-tag {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--borda);
+      background: var(--branco);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* grid de dados (slide "Como funciona") */
+    .dados-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .dado-item {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 10px;
       padding: 10px 12px;
     }
 
-    .proposal tr:last-child td { border-bottom: none; }
-
-    .strong-blue { color: var(--azul); font-weight: 700; }
-    .strong-gold { color: var(--ouro); font-weight: 700; }
-
-    .logo-row {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-top: 20px;
+    .dado-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      margin-bottom: 3px;
     }
 
-    .logo-row img {
-      width: auto;
-      height: 52px;
-      object-fit: contain;
-    }
-
-    .controls {
-      position: absolute;
-      right: max(16px, calc(var(--safe-right) + 8px));
-      bottom: max(16px, calc(var(--safe-bottom) + 8px));
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 20;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 999px;
-      background: var(--azul);
-      color: #fff;
-      width: 42px;
-      height: 42px;
-      min-width: 42px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    .counter {
-      font-family: 'Montserrat', sans-serif;
+    .dado-valor {
       font-size: 13px;
-      color: #263043;
-      background: rgba(255,255,255,.88);
-      padding: 7px 12px;
-      min-height: 42px;
+      font-weight: 600;
+      color: var(--azul);
+    }
+
+    /* tabela (slide "Exemplo ilustrativo") */
+    .tabela-wrapper {
+      overflow-x: auto;
       border-radius: 10px;
+      border: 1px solid var(--borda);
+      margin-top: 4px;
+    }
+
+    .tabela {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 320px;
+    }
+
+    .tabela th, .tabela td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--cinza);
+      text-align: left;
+    }
+
+    .tabela th {
+      background: var(--bg);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .10em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .tabela tr:last-child td { border-bottom: none; }
+
+    .tabela td:first-child { color: var(--muted); }
+    .tabela td:last-child  { font-weight: 600; color: var(--azul); }
+
+    /* ── Navegação ─────────────────────────────────────────── */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+      border-top: 1px solid var(--cinza);
+    }
+
+    .nav-grupo {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .counter-nav {
+    .nav-btn {
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 13px;
+      border: 1px solid var(--borda);
+      background: var(--branco);
+      color: var(--texto);
+      transition: background .15s, border-color .15s, transform .15s, opacity .15s;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-width: 16px;
-      opacity: 0.5;
-      font-weight: 400;
+      gap: 6px;
+      white-space: nowrap;
     }
 
-    .counter-current {
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: #9ca3af;
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    .nav-btn-cta {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--azul);
+      color: #fff;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-width: 20px;
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--azul);
-      line-height: 1;
-      opacity: 1;
+      gap: 8px;
+      transition: background .15s, transform .15s;
+      box-shadow: 0 4px 14px rgba(2,43,58,.28);
     }
 
-    .progress {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 5px;
-      background: rgba(26, 35, 126, .16);
-      z-index: 20;
+    .nav-btn-cta:hover { background: #011c27; transform: translateY(-1px); }
+
+    .nav-dica {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
-    .progress > span {
-      display: block;
-      height: 100%;
-      width: 0;
-      background: linear-gradient(to right, var(--azul), var(--ouro));
-      transition: width 260ms ease;
+    /* ── Footer ────────────────────────────────────────────── */
+    .footer {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: var(--muted);
+      box-shadow: var(--sombra);
     }
 
-    @media (max-width: 1280px) {
-      .slide {
-        gap: 1.2rem;
-      }
-
-      h2 {
-        font-size: clamp(22px, 3vw, 38px);
-      }
-
-      .bullets,
-      p {
-        font-size: clamp(14px, 1.2vw, 20px);
-      }
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    @media (max-width: 980px) {
-      .slide {
+    .footer-logos img { height: 26px; }
+
+    /* ── Responsivo ────────────────────────────────────────── */
+    @media (max-width: 780px) {
+      .hero {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-        gap: 0.8rem;
-        align-content: start;
-        overflow-y: auto;
-        padding-bottom: max(112px, calc(var(--safe-bottom) + 112px));
+        padding: 20px 16px;
       }
 
-      .slide::before {
-        top: 42px;
-        left: 28px;
-        width: 46px;
-        height: 46px;
+      .hero-img-card { max-width: 360px; }
+
+      .slide.ativo {
+        grid-template-columns: 1fr;
       }
 
-      .right { align-items: center; }
+      .dados-grid { grid-template-columns: 1fr; }
 
-      .image-wrap img {
-        max-height: var(--img-mobile-max-height);
+      .nav-bar {
+        flex-direction: column;
+        align-items: stretch;
       }
 
-      .image-wrap.plain img {
-        max-width: min(100%, var(--img-max-width));
-      }
-
-      .split-images {
-        grid-template-rows: 1fr 1fr;
-      }
-
-      .controls {
-        left: 50%;
-        transform: translateX(-50%);
-        right: auto;
-        bottom: max(10px, calc(var(--safe-bottom) + 8px));
-        gap: 6px;
-        padding: 6px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.84);
-        backdrop-filter: blur(4px);
-      }
-
-      .btn {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-        font-size: 18px;
-      }
-
-      .counter {
-        min-height: 40px;
-        padding: 6px 10px;
-        font-size: 12px;
-      }
-
-      .counter-current {
-        font-size: 16px;
-      }
-
-      .progress {
-        height: 4px;
-      }
-
-      .slide:last-of-type .footnote {
-        left: 16px;
-        right: 16px;
-        bottom: 84px;
-        max-width: none;
-      }
+      .nav-grupo { justify-content: center; }
+      .nav-btn-cta { justify-content: center; }
+      .nav-dica { justify-content: center; }
     }
 
-    @media (max-width: 640px) {
-      .slide {
-        padding-top: max(18px, calc(var(--safe-top) + 10px));
-      }
-
-      .slide::before {
-        width: 38px;
-        height: 38px;
-        top: 34px;
-        left: 20px;
-      }
-
-      .slide:first-of-type::before {
-        width: 118px;
-        height: 118px;
-      }
-
-      h1 {
-        font-size: clamp(27px, 8vw, 40px);
-      }
-
-      .slide:first-of-type h1 {
-        font-size: clamp(32px, 9vw, 48px);
-      }
-
-      h2 {
-        font-size: clamp(22px, 6.8vw, 32px);
-      }
-
-      p,
-      .bullets {
-        font-size: clamp(14px, 4vw, 18px);
-      }
-
-      .badge {
-        font-size: 12px;
-        padding: 7px 12px;
-      }
-
-      .proposal {
-        font-size: clamp(13px, 3.7vw, 16px);
-      }
-
-      .logo-row {
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-
-      .logo-row img {
-        height: 44px;
-      }
-
-      .btn {
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
-      }
-
-      .counter {
-        min-height: 36px;
-      }
-
-      .slide:last-of-type .footnote {
-        font-size: 11px;
-      }
+    @media (max-width: 480px) {
+      .page { padding: 12px 12px 30px; gap: 14px; }
+      .header { padding: 10px 14px; }
+      .slider-shell { padding: 14px 14px 16px; }
+      .progress-bar-bg { display: none; }
+      .slide-titulo { font-size: 16px; }
     }
 
-    @media (max-height: 700px) {
-      .slide {
-        overflow-y: auto;
-      }
-
-      .image-wrap img {
-        max-height: min(52vh, var(--img-mobile-max-height));
-      }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <main class="deck" id="deck">
-    <section class="slide active">
-      <div class="left">
-        <span class="kicker">Uny FleetCom</span>
-        <h1>Programa de Locação com Opção de Compra</h1>
-        <p>Volvo<sup>*</sup> FH 440 I-Shift 6x2</p>
-      </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png" alt="Caminhão Volvo em vista frontal diagonal" /></div>
-      </div>
-    </section>
+<div class="page">
 
-    <section class="slide">
-      <div class="left">
-        <h2>Renovação de frota com previsibilidade</h2>
-        <ul class="bullets">
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">UF</div>
+      <div>
+        <div class="brand-title">Uny FleetCom</div>
+        <div class="brand-sub">Programa de Locação com Opção de Compra</div>
+      </div>
+    </div>
+    <span class="header-badge">
+      <span class="dot-verde" aria-hidden="true"></span>
+      Material institucional · v1
+    </span>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero" aria-label="Visão geral do programa">
+    <div>
+      <div class="hero-kicker">Renovação de frota com previsibilidade</div>
+      <h1 class="hero-titulo">
+        Programa de Locação com Opção de Compra<br>
+        <span style="color:var(--verde);">Volvo* FH 440 I-Shift 6x2</span>
+      </h1>
+      <p class="hero-desc">
+        Estrutura pensada para parceiros que buscam renovar a frota com previsibilidade
+        operacional e patrimonial, combinando locação mensal com possibilidade de aquisição
+        ao final do contrato.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">Prazo-base: 48 meses</span>
+        <span class="tag">Reajuste anual: IPCA</span>
+        <span class="tag">Opção de compra ao final</span>
+      </div>
+      <button class="hero-btn" id="btnIniciar">Iniciar apresentação →</button>
+    </div>
+
+    <div class="hero-img-card" aria-hidden="true">
+      <img
+        src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png"
+        alt="Caminhão Volvo FH 440 em vista frontal diagonal"
+      />
+      <div class="hero-img-meta">
+        <div class="meta-item">
+          <span class="meta-label">Prazo-base</span>
+          <span class="meta-value">48 meses · 48 parcelas</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Valor residual ilustrativo</span>
+          <span class="meta-value">R$ 57.800,00 (20%)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDER ── -->
+  <main class="slider-shell" aria-label="Apresentação do programa">
+
+    <div class="slider-head">
+      <span class="slider-head-title">Apresentação passo a passo</span>
+      <div class="progress-row">
+        <span class="progress-label">
+          Slide <strong id="lblAtual">1</strong> de <span id="lblTotal">10</span>
+        </span>
+        <div class="progress-bar-bg" aria-hidden="true">
+          <div class="progress-bar-fill" id="barraProgresso"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================ SLIDES ================ -->
+
+    <!-- SLIDE 1 -->
+    <section class="slide ativo" id="slide-1" aria-labelledby="t1">
+      <div class="slide-texto">
+        <h2 id="t1" class="slide-titulo">Renovação de frota com previsibilidade</h2>
+        <p class="slide-desc">
+          A Uny FleetCom organiza a disponibilização de ativos com regras contratuais
+          claras, apoiando ciclos de renovação como o da HI Transportes.
+        </p>
+        <ul class="slide-lista">
           <li>A HI Transportes iniciou um novo ciclo de renovação de frota.</li>
           <li>Parte dos cavalos mecânicos da operação foi direcionada à Uny FleetCom.</li>
           <li>O programa organiza a disponibilização dos ativos com regras contratuais claras.</li>
         </ul>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png" alt="Imagem frontal diagonal do caminhão" /></div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png" alt="Caminhão Volvo FH 440 – frontal diagonal" />
+        <div class="slide-visual-legenda">
+          <span>Volvo* FH 440 I-Shift 6x2 — exemplo ilustrativo.</span>
+          <span class="slide-tag">Renovação de frota</span>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="left">
-        <h2>Modelo pensado para locar e adquirir</h2>
-        <ul class="bullets">
+    <!-- SLIDE 2 -->
+    <section class="slide" id="slide-2" aria-labelledby="t2" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t2" class="slide-titulo">Modelo pensado para locar e adquirir</h2>
+        <p class="slide-desc">
+          A estrutura combina locação mensal com opção de compra, oferecendo
+          previsibilidade operacional e patrimonial para parceiros elegíveis.
+        </p>
+        <ul class="slide-lista">
           <li>Estrutura de locação mensal com opção de compra ao final.</li>
           <li>Ativo revisado e preparado para operação.</li>
           <li>Previsibilidade patrimonial e operacional para parceiros elegíveis.</li>
         </ul>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo em vista frontal" /></div>
-      </div>
-    </section>
-
-    <section class="slide">
-      <div class="left">
-        <h2>Como funciona o contrato</h2>
-        <div class="stats">
-          <span class="badge">Prazo-base: 48 meses</span>
-          <span class="badge">48 parcelas mensais</span>
-          <span class="badge">Reajuste anual pelo IPCA</span>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo FH 440 – frontal" />
+        <div class="slide-visual-legenda">
+          <span>Veículo preparado para operação.</span>
+          <span class="slide-tag">Locação + opção de compra</span>
         </div>
-        <p class="small-note">Contrato de locação com opção de compra entre a Uny FleetCom e a empresa locatária.</p>
-      </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Traseira diagonal.png" alt="Caminhão Volvo em vista traseira diagonal" /></div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="left">
-        <h2>Aquisição ao final do prazo</h2>
-        <ul class="bullets">
-          <li>Ao final da vigência contratual, a locatária poderá exercer a opção de compra.</li>
+    <!-- SLIDE 3 -->
+    <section class="slide" id="slide-3" aria-labelledby="t3" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t3" class="slide-titulo">Como funciona o contrato</h2>
+        <p class="slide-desc">
+          Contrato de locação com opção de compra entre a Uny FleetCom e a empresa
+          locatária, com regras claras de prazo, parcelas e reajuste.
+        </p>
+        <div class="dados-grid">
+          <div class="dado-item">
+            <div class="dado-label">Prazo-base</div>
+            <div class="dado-valor">48 meses</div>
+          </div>
+          <div class="dado-item">
+            <div class="dado-label">Parcelas</div>
+            <div class="dado-valor">48 mensais</div>
+          </div>
+          <div class="dado-item">
+            <div class="dado-label">Reajuste</div>
+            <div class="dado-valor">IPCA a cada 12 meses</div>
+          </div>
+          <div class="dado-item">
+            <div class="dado-label">Relação contratual</div>
+            <div class="dado-valor">Uny FleetCom × locatária</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Traseira diagonal.png" alt="Caminhão Volvo FH 440 – traseira diagonal" />
+        <div class="slide-visual-legenda">
+          <span>Contrato em 48 meses.</span>
+          <span class="slide-tag">Contrato</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4 -->
+    <section class="slide" id="slide-4" aria-labelledby="t4" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t4" class="slide-titulo">Aquisição ao final do prazo</h2>
+        <p class="slide-desc">
+          Ao final da vigência, a locatária poderá exercer a opção de compra, desde
+          que cumpridas as condições estabelecidas.
+        </p>
+        <ul class="slide-lista">
+          <li>A locatária poderá exercer a opção de compra ao final da vigência.</li>
           <li>A transferência depende do cumprimento integral das obrigações contratuais.</li>
           <li>A quitação do valor residual é condição para a transferência definitiva do ativo.</li>
         </ul>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Lateral esquerda.png" alt="Caminhão Volvo em vista lateral esquerda" /></div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Lateral esquerda.png" alt="Caminhão Volvo FH 440 – lateral esquerda" />
+        <div class="slide-visual-legenda">
+          <span>Transição de posse ao final do contrato.</span>
+          <span class="slide-tag">Opção de compra</span>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="left">
-        <h2>Veículo entregue pronto para operar</h2>
-        <ul class="bullets">
+    <!-- SLIDE 5 -->
+    <section class="slide" id="slide-5" aria-labelledby="t5" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t5" class="slide-titulo">Veículo entregue pronto para operar</h2>
+        <p class="slide-desc">
+          Cada unidade é entregue revisada, com pneus novos, rastreador instalado e
+          garantia definida nos termos do programa.
+        </p>
+        <ul class="slide-lista">
           <li>Veículo revisado.</li>
           <li>10 pneus novos.</li>
           <li>Rastreador satelital OnixSat instalado.</li>
           <li>Garantia de 3 meses nos termos do programa.</li>
         </ul>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Interior bancos.png" alt="Interior dos bancos do caminhão" /></div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Interior bancos.png" alt="Interior dos bancos do caminhão" />
+        <div class="slide-visual-legenda">
+          <span>Interior do veículo — conforto e preparação.</span>
+          <span class="slide-tag">Pronto para operar</span>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="left">
-        <h2>Carreta em comodato, com regras definidas</h2>
-        <ul class="bullets">
+    <!-- SLIDE 6 -->
+    <section class="slide" id="slide-6" aria-labelledby="t6" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t6" class="slide-titulo">Carreta em comodato, com regras definidas</h2>
+        <p class="slide-desc">
+          A carreta pode ser disponibilizada sem cobrança de locação, com gestão e
+          manutenção sob responsabilidade da locatária.
+        </p>
+        <ul class="slide-lista">
           <li>A carreta pode ser disponibilizada em regime de comodato.</li>
           <li>Não há cobrança de locação da carreta.</li>
           <li>A carreta permanece de propriedade da empresa.</li>
-          <li>A gestão operacional e a manutenção ficam sob responsabilidade da locatária.</li>
+          <li>Gestão operacional e manutenção ficam sob responsabilidade da locatária.</li>
         </ul>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Traseira diagonal.png" alt="Traseira diagonal do conjunto com carreta" /></div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Traseira diagonal.png" alt="Traseira diagonal do conjunto com carreta" />
+        <div class="slide-visual-legenda">
+          <span>Conjunto com carreta em comodato.</span>
+          <span class="slide-tag">Comodato</span>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="left">
-        <h2>Responsabilidade operacional é integral</h2>
-        <ul class="bullets">
+    <!-- SLIDE 7 -->
+    <section class="slide" id="slide-7" aria-labelledby="t7" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t7" class="slide-titulo">Responsabilidade operacional é integral</h2>
+        <p class="slide-desc">
+          A locatária assume responsabilidade plena pela operação, manutenção e
+          conservação dos ativos durante o contrato.
+        </p>
+        <ul class="slide-lista">
           <li>Posse, guarda, utilização e conservação do ativo.</li>
           <li>Manutenção preventiva e corretiva.</li>
           <li>Custos de pneus, recapagens e desgaste operacional.</li>
           <li>Preservação do rastreador e dos sistemas embarcados.</li>
         </ul>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Interior cama.png" alt="Interior da cama do caminhão" /></div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Interior cama.png" alt="Interior da cama do caminhão" />
+        <div class="slide-visual-legenda">
+          <span>Conservação integral da cabine.</span>
+          <span class="slide-tag">Responsabilidade operacional</span>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="left">
-        <h2>Exemplo ilustrativo da proposta</h2>
-        <table class="proposal">
-          <tr><td>Veículo: Volvo<sup>*</sup> FH 440 I-Shift 6x2</td><td class="strong-blue">Ano: 2011</td></tr>
-          <tr><td colspan="2" class="strong-gold">Prazo do contrato: 48 meses</td></tr>
-          <tr><td colspan="2" class="strong-blue">Valor da locação: R$ 6.622,92 por mês</td></tr>
-          <tr><td colspan="2">Reajuste: IPCA aplicado a cada 12 meses</td></tr>
-          <tr><td colspan="2" class="strong-gold">Valor residual final: R$ 57.800,00</td></tr>
-          <tr><td colspan="2">Percentual residual: 20% do valor-base contratual</td></tr>
-        </table>
+    <!-- SLIDE 8 -->
+    <section class="slide" id="slide-8" aria-labelledby="t8" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t8" class="slide-titulo">Exemplo ilustrativo da proposta</h2>
+        <p class="slide-desc">
+          Estrutura de locação e valor residual para o Volvo* FH 440 I-Shift 6x2.
+          Valores meramente ilustrativos.
+        </p>
+        <div class="tabela-wrapper">
+          <table class="tabela">
+            <tbody>
+              <tr>
+                <th>Veículo</th>
+                <td>Volvo* FH 440 I-Shift 6x2 · Ano 2011</td>
+              </tr>
+              <tr>
+                <th>Prazo do contrato</th>
+                <td>48 meses</td>
+              </tr>
+              <tr>
+                <th>Valor da locação</th>
+                <td>R$ 6.622,92 por mês</td>
+              </tr>
+              <tr>
+                <th>Reajuste</th>
+                <td>IPCA a cada 12 meses</td>
+              </tr>
+              <tr>
+                <th>Valor residual final</th>
+                <td>R$ 57.800,00</td>
+              </tr>
+              <tr>
+                <th>Percentual residual</th>
+                <td>20% do valor-base contratual</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png" alt="Caminhão Volvo em vista frontal diagonal da proposta" /></div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png" alt="Caminhão Volvo FH 440 – frontal diagonal" />
+        <div class="slide-visual-legenda">
+          <span>Veículo da proposta ilustrativa.</span>
+          <span class="slide-tag">Exemplo ilustrativo</span>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="left">
-        <h2>Condições finais e próximos passos</h2>
-        <ul class="bullets">
+    <!-- SLIDE 9 -->
+    <section class="slide" id="slide-9" aria-labelledby="t9" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t9" class="slide-titulo">Condições finais e próximos passos</h2>
+        <p class="slide-desc">
+          A disponibilização dos ativos depende de análise individual, aprovação interna
+          e formalização contratual específica.
+        </p>
+        <ul class="slide-lista">
           <li>A disponibilização depende de análise individual e aprovação interna.</li>
-          <li>Esta apresentação não substitui proposta aprovada nem instrumentos contratuais específicos.</li>
+          <li>Este material não substitui proposta aprovada nem instrumentos contratuais.</li>
           <li>As condições definitivas constarão da proposta individual e dos contratos correspondentes.</li>
         </ul>
-        <p class="small-note"><strong>Próxima etapa:</strong> proposta individual, validação documental e formalização contratual.</p>
+        <p style="margin-top:12px; font-size:13px;">
+          <strong>Próxima etapa:</strong> proposta individual, validação documental e formalização contratual.
+        </p>
       </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo em vista frontal para fechamento" /></div>
-      </div>
-    </section>
-
-    <section class="slide">
-      <div class="left">
-        <h2>Conheça na prática o Programa de Locação com Opção de Compra da Uny FleetCom</h2>
-        <p class="small-note">Material institucional para apresentação comercial.</p>
-        <div class="logo-row">
-          <img src="assets/ppt_media/image16.svg" alt="Logo Uny" />
-          <img src="assets/ppt_media/image17.svg" alt="Logo FleetCom" />
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo FH 440 – frontal" />
+        <div class="slide-visual-legenda">
+          <span>Imagem de fechamento.</span>
+          <span class="slide-tag">Próximos passos</span>
         </div>
-        <p class="footnote"><sup>*</sup> Volvo FH 440. Imagens utilizadas para fins ilustrativos. Volvo é uma marca registrada da Volvo Trademark Holding AB.</p>
-      </div>
-      <div class="right">
-        <div class="image-wrap plain"><img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Imagem final frontal do caminhão" /></div>
       </div>
     </section>
 
-    <div class="controls">
-      <button class="btn" id="home" aria-label="Ir para o primeiro slide">&#8676;</button>
-      <button class="btn" id="prev" aria-label="Slide anterior">&#8249;</button>
-      <span class="counter" id="counter">
-        <span class="counter-nav" id="counter-prev">0</span>
-        <span class="counter-current" id="counter-current">1</span>
-        <span class="counter-nav" id="counter-next">2</span>
-      </span>
-      <button class="btn" id="next" aria-label="Proximo slide">&#8250;</button>
-      <button class="btn" id="end" aria-label="Ir para o último slide">&#8677;</button>
-    </div>
-    <div class="progress"><span id="bar"></span></div>
+    <!-- SLIDE 10 -->
+    <section class="slide" id="slide-10" aria-labelledby="t10" aria-hidden="true">
+      <div class="slide-texto">
+        <h2 id="t10" class="slide-titulo">Conheça na prática o Programa Uny FleetCom</h2>
+        <p class="slide-desc">
+          Este material é um resumo institucional para apoio à apresentação comercial
+          do Programa de Locação com Opção de Compra da Uny FleetCom.
+        </p>
+        <ul class="slide-lista">
+          <li>Material institucional para apresentação comercial.</li>
+          <li>Voltado a parceiros, clientes e investidores.</li>
+          <li>Complementado por propostas individuais e contratos específicos.</li>
+        </ul>
+        <p style="margin-top:12px; font-size:13px;">
+          Entre em contato com o time Uny FleetCom para conhecer a disponibilidade de
+          unidades, condições específicas e adequação à sua operação.
+        </p>
+      </div>
+      <div class="slide-visual">
+        <img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo FH 440 – frontal" />
+        <div class="slide-visual-legenda">
+          <span>Material institucional Uny FleetCom.</span>
+          <span class="slide-tag">Encerramento</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================ NAVEGAÇÃO ================ -->
+    <nav class="nav-bar" aria-label="Controles de navegação">
+
+      <div class="nav-grupo">
+        <button class="nav-btn" id="btnInicio" title="Ir para o primeiro slide">
+          ⏮ Início
+        </button>
+        <button class="nav-btn" id="btnAnterior" title="Slide anterior">
+          ◀ Anterior
+        </button>
+        <button class="nav-btn" id="btnProximo" title="Próximo slide">
+          Próximo ▶
+        </button>
+        <button class="nav-btn" id="btnFim" title="Ir para o último slide">
+          Fim ⏭
+        </button>
+      </div>
+
+      <button class="nav-btn-cta" id="btnProposta">
+        Ver proposta ilustrativa →
+      </button>
+
+      <div class="nav-dica" aria-hidden="true">
+        <span>Teclas: ← →</span>
+      </div>
+
+    </nav>
   </main>
 
-  <script>
-    const deck = document.getElementById('deck');
-    const slides = Array.from(document.querySelectorAll('.slide'));
-    const home = document.getElementById('home');
-    const prev = document.getElementById('prev');
-    const next = document.getElementById('next');
-    const end = document.getElementById('end');
-    const counter = document.getElementById('counter');
-    const bar = document.getElementById('bar');
-    let index = 0;
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer-logos">
+      <img src="assets/ppt_media/image16.svg" alt="Logo Uny" />
+      <img src="assets/ppt_media/image17.svg" alt="Logo FleetCom" />
+    </div>
+    <div>
+      * Volvo FH 440 — imagens para fins ilustrativos. Volvo é marca registrada da Volvo Trademark Holding AB.
+    </div>
+    <div>
+      © Uny FleetCom — material institucional, não substitui proposta nem contrato específico.
+    </div>
+  </footer>
 
-    function updateSlides(direction = 0) {
-      deck.classList.toggle('is-forward', direction >= 0);
-      deck.classList.toggle('is-backward', direction < 0);
+</div><!-- /page -->
 
-      slides.forEach((slide, i) => {
-        slide.classList.remove('active', 'before', 'after');
+<script>
+(function () {
+  const slides      = Array.from(document.querySelectorAll(".slide"));
+  const total       = slides.length;
+  const lblAtual    = document.getElementById("lblAtual");
+  const lblTotal    = document.getElementById("lblTotal");
+  const barra       = document.getElementById("barraProgresso");
+  const btnInicio   = document.getElementById("btnInicio");
+  const btnAnterior = document.getElementById("btnAnterior");
+  const btnProximo  = document.getElementById("btnProximo");
+  const btnFim      = document.getElementById("btnFim");
+  const btnIniciar  = document.getElementById("btnIniciar");
+  const btnProposta = document.getElementById("btnProposta");
 
-        if (i < index) {
-          slide.classList.add('before');
-          return;
-        }
+  lblTotal.textContent = total;
+  let idx = 0;
 
-        if (i === index) {
-          slide.classList.add('active');
-          return;
-        }
+  function ir(novoIdx) {
+    if (novoIdx < 0 || novoIdx >= total) return;
 
-        slide.classList.add('after');
-      });
+    // esconde atual
+    slides[idx].classList.remove("ativo");
+    slides[idx].setAttribute("aria-hidden", "true");
 
-      const prev_num = index > 0 ? String(index) : '';
-      const cur_num = index + 1;
-      const next_num = index < slides.length - 1 ? String(index + 2) : '';
+    // mostra novo
+    idx = novoIdx;
+    slides[idx].classList.add("ativo");
+    slides[idx].removeAttribute("aria-hidden");
 
-      document.getElementById('counter-prev').textContent = prev_num;
-      document.getElementById('counter-current').textContent = cur_num;
-      document.getElementById('counter-next').textContent = next_num;
-      bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+    // atualiza contadores
+    lblAtual.textContent = idx + 1;
+    const pct = ((idx + 1) / total * 100).toFixed(1);
+    barra.style.width = pct + "%";
+
+    // atualiza botões
+    btnInicio.disabled   = idx === 0;
+    btnAnterior.disabled = idx === 0;
+    btnProximo.disabled  = idx === total - 1;
+    btnFim.disabled      = idx === total - 1;
+  }
+
+  // inicializa
+  ir(0);
+
+  // eventos
+  btnInicio.addEventListener  ("click", () => ir(0));
+  btnAnterior.addEventListener("click", () => ir(idx - 1));
+  btnProximo.addEventListener ("click", () => ir(idx + 1));
+  btnFim.addEventListener     ("click", () => ir(total - 1));
+
+  btnIniciar.addEventListener("click", () => {
+    document.querySelector(".slider-shell")
+      .scrollIntoView({ behavior: "smooth", block: "start" });
+    ir(0);
+  });
+
+  // "Ver proposta ilustrativa" → slide 8 (índice 7)
+  btnProposta.addEventListener("click", () => {
+    document.querySelector(".slider-shell")
+      .scrollIntoView({ behavior: "smooth", block: "start" });
+    ir(7);
+  });
+
+  // teclado
+  document.addEventListener("keydown", function (e) {
+    const tag = document.activeElement.tagName.toLowerCase();
+    if (tag === "input" || tag === "textarea" || tag === "select") return;
+
+    if (e.key === "ArrowRight" || e.key === "PageDown") {
+      e.preventDefault(); ir(idx + 1);
+    } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+      e.preventDefault(); ir(idx - 1);
+    } else if (e.key === "Home") {
+      e.preventDefault(); ir(0);
+    } else if (e.key === "End") {
+      e.preventDefault(); ir(total - 1);
     }
-
-    function go(step) {
-      const previousIndex = index;
-      index += step;
-      if (index < 0) index = 0;
-      if (index > slides.length - 1) index = slides.length - 1;
-      if (index === previousIndex) return;
-      updateSlides(step);
-    }
-
-    prev.addEventListener('click', () => go(-1));
-    next.addEventListener('click', () => go(1));
-    home.addEventListener('click', () => { index = 0; updateSlides(-1); });
-    end.addEventListener('click', () => { index = slides.length - 1; updateSlides(1); });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') go(1);
-      if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(-1);
-      if (e.key === 'Home') { index = 0; updateSlides(-1); }
-      if (e.key === 'End') { index = slides.length - 1; updateSlides(1); }
-    });
-
-    let wheelLocked = false;
-    window.addEventListener('wheel', (e) => {
-      if (wheelLocked) return;
-      if (Math.abs(e.deltaY) < 25) return;
-      wheelLocked = true;
-      go(e.deltaY > 0 ? 1 : -1);
-      setTimeout(() => { wheelLocked = false; }, 260);
-    }, { passive: true });
-
-    updateSlides(1);
-  </script>
+  });
+})();
+</script>
 </body>
 </html>
