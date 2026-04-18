@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Uny FleetCom – Programa de Locação com Opção de Compra</title>
+  <title>Uny FleetCom® – Programa de Locação com Opção de Compra</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
@@ -13,7 +13,13 @@
 
     :root {
       --azul:      #022b3a;
-      --verde:     #00b894;
+      --verde:     #0558b6;
+      --brand-logo-tone: #2E2F84;
+      --brand-title-size: 27px;
+      --brand-sub-size: 21.6px;
+      --brand-title-line-height: 1.1;
+      --brand-sub-line-height: 1.15;
+      --brand-text-gap: 4px;
       --branco:    #ffffff;
       --bg:        #f4f6f9;
       --cinza:     #e8eaee;
@@ -22,6 +28,8 @@
       --borda:     #d0d5dd;
       --radius:    14px;
       --sombra:    0 4px 24px rgba(0,0,0,.10);
+      --slide-box-height: 280px;
+      --slide-image-height: 200px;
     }
 
     html, body {
@@ -63,30 +71,46 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--brand-text-gap);
     }
 
     .brand-logo {
-      width: 42px; height: 42px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--verde), #0ea5e9);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff;
-      font-family: "Montserrat", sans-serif;
-      font-weight: 700;
-      font-size: 15px;
+      height: calc(
+        (var(--brand-title-size) * var(--brand-title-line-height)) +
+        (var(--brand-sub-size) * var(--brand-sub-line-height)) +
+        var(--brand-text-gap)
+      );
+      width: calc(
+        (var(--brand-title-size) * var(--brand-title-line-height)) +
+        (var(--brand-sub-size) * var(--brand-sub-line-height)) +
+        var(--brand-text-gap)
+      );
+      object-fit: contain;
       flex-shrink: 0;
     }
 
     .brand-title {
       font-family: "Montserrat", sans-serif;
       font-weight: 700;
-      font-size: 15px;
-      color: var(--azul);
+      font-size: var(--brand-title-size);
+      line-height: var(--brand-title-line-height);
+      color: var(--brand-logo-tone);
+    }
+
+    .brand-mark {
+      color: var(--brand-logo-tone);
+      font-weight: 700;
     }
 
     .brand-sub {
-      font-size: 12px;
+      font-size: var(--brand-sub-size);
+      line-height: var(--brand-sub-line-height);
       color: var(--muted);
     }
 
@@ -123,9 +147,9 @@
     }
 
     .hero-kicker {
-      font-size: 11px;
+      font-size: var(--brand-sub-size);
       text-transform: uppercase;
-      letter-spacing: .18em;
+      letter-spacing: .10em;
       color: var(--verde);
       font-weight: 600;
       margin-bottom: 8px;
@@ -227,7 +251,7 @@
     .slider-head {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 12px;
       flex-wrap: wrap;
     }
@@ -277,7 +301,7 @@
     .slide {
       grid-template-columns: 1fr 300px;
       gap: 16px;
-      align-items: start;
+      align-items: stretch;
     }
 
     /* painel de texto */
@@ -286,6 +310,9 @@
       border: 1px solid var(--borda);
       border-radius: var(--radius);
       padding: 18px 20px;
+      min-height: var(--slide-box-height);
+      height: var(--slide-box-height);
+      overflow: auto;
     }
 
     .slide-titulo {
@@ -334,34 +361,20 @@
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      justify-content: center;
+      gap: 0;
+      min-height: var(--slide-box-height);
+      height: var(--slide-box-height);
     }
 
     .slide-visual img {
       border-radius: 10px;
       width: 100%;
-      object-fit: cover;
-      max-height: 200px;
-    }
-
-    .slide-visual-legenda {
-      font-size: 11px;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .slide-tag {
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--borda);
+      object-fit: contain;
+      object-position: center;
+      height: var(--slide-image-height);
+      max-height: var(--slide-image-height);
       background: var(--branco);
-      color: var(--muted);
-      white-space: nowrap;
     }
 
     /* grid de dados (slide "Como funciona") */
@@ -431,15 +444,31 @@
     /* ── Navegação ─────────────────────────────────────────── */
     .nav-bar {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 8px 10px;
       padding-top: 4px;
       border-top: 1px solid var(--cinza);
+      min-height: 52px;
+    }
+
+    .nav-bar .progress-row {
+      order: 2;
+      flex: 1 1 100%;
+      justify-content: center;
+      min-width: 0;
+      width: min(100%, 420px);
+      margin: 2px auto 0;
+      pointer-events: auto;
+    }
+
+    .nav-bar .progress-bar-bg {
+      max-width: none;
     }
 
     .nav-grupo {
+      order: 1;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -472,6 +501,7 @@
     }
 
     .nav-btn-cta {
+      order: 1;
       border: none;
       border-radius: 999px;
       padding: 8px 18px;
@@ -484,17 +514,21 @@
       gap: 8px;
       transition: background .15s, transform .15s;
       box-shadow: 0 4px 14px rgba(2,43,58,.28);
+      margin-left: auto;
     }
 
     .nav-btn-cta:hover { background: #011c27; transform: translateY(-1px); }
 
     .nav-dica {
+      order: 1;
+      flex: 0 0 auto;
       font-size: 11px;
       color: var(--muted);
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
+      margin-left: 2px;
     }
 
     /* ── Footer ────────────────────────────────────────────── */
@@ -534,11 +568,32 @@
         grid-template-columns: 1fr;
       }
 
+      .slide-texto,
+      .slide-visual {
+        min-height: 0;
+        height: auto;
+      }
+
+      .slide-visual img {
+        height: auto;
+        max-height: 220px;
+      }
+
       .dados-grid { grid-template-columns: 1fr; }
 
       .nav-bar {
         flex-direction: column;
         align-items: stretch;
+      }
+
+      .nav-bar .progress-row {
+        order: 2;
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        pointer-events: auto;
+        justify-content: flex-start;
+        margin: 0;
       }
 
       .nav-grupo { justify-content: center; }
@@ -565,9 +620,9 @@
   <!-- ── HEADER ── -->
   <header class="header">
     <div class="brand">
-      <div class="brand-logo" aria-hidden="true">UF</div>
-      <div>
-        <div class="brand-title">Uny FleetCom</div>
+      <img class="brand-logo" src="assets/ppt_media/image2.png" alt="Logo da marca" />
+      <div class="brand-text">
+        <div class="brand-title">Uny FleetCom<sup>®</sup></div>
         <div class="brand-sub">Programa de Locação com Opção de Compra</div>
       </div>
     </div>
@@ -621,14 +676,6 @@
 
     <div class="slider-head">
       <span class="slider-head-title">Apresentação passo a passo</span>
-      <div class="progress-row">
-        <span class="progress-label">
-          Slide <strong id="lblAtual">1</strong> de <span id="lblTotal">10</span>
-        </span>
-        <div class="progress-bar-bg" aria-hidden="true">
-          <div class="progress-bar-fill" id="barraProgresso"></div>
-        </div>
-      </div>
     </div>
 
     <!-- ================ SLIDES ================ -->
@@ -638,21 +685,17 @@
       <div class="slide-texto">
         <h2 id="t1" class="slide-titulo">Renovação de frota com previsibilidade</h2>
         <p class="slide-desc">
-          A Uny FleetCom organiza a disponibilização de ativos com regras contratuais
+          A <span class="brand-mark">Uny FleetCom<sup>®</sup></span> organiza a disponibilização de ativos com regras contratuais
           claras, apoiando ciclos de renovação como o da HI Transportes.
         </p>
         <ul class="slide-lista">
           <li>A HI Transportes iniciou um novo ciclo de renovação de frota.</li>
-          <li>Parte dos cavalos mecânicos da operação foi direcionada à Uny FleetCom.</li>
+          <li>Parte dos cavalos mecânicos da operação foi direcionada à <span class="brand-mark">Uny FleetCom<sup>®</sup></span>.</li>
           <li>O programa organiza a disponibilização dos ativos com regras contratuais claras.</li>
         </ul>
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png" alt="Caminhão Volvo FH 440 – frontal diagonal" />
-        <div class="slide-visual-legenda">
-          <span>Volvo* FH 440 I-Shift 6x2 — exemplo ilustrativo.</span>
-          <span class="slide-tag">Renovação de frota</span>
-        </div>
       </div>
     </section>
 
@@ -672,10 +715,6 @@
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo FH 440 – frontal" />
-        <div class="slide-visual-legenda">
-          <span>Veículo preparado para operação.</span>
-          <span class="slide-tag">Locação + opção de compra</span>
-        </div>
       </div>
     </section>
 
@@ -684,7 +723,7 @@
       <div class="slide-texto">
         <h2 id="t3" class="slide-titulo">Como funciona o contrato</h2>
         <p class="slide-desc">
-          Contrato de locação com opção de compra entre a Uny FleetCom e a empresa
+          Contrato de locação com opção de compra entre a <span class="brand-mark">Uny FleetCom<sup>®</sup></span> e a empresa
           locatária, com regras claras de prazo, parcelas e reajuste.
         </p>
         <div class="dados-grid">
@@ -702,16 +741,12 @@
           </div>
           <div class="dado-item">
             <div class="dado-label">Relação contratual</div>
-            <div class="dado-valor">Uny FleetCom × locatária</div>
+            <div class="dado-valor"><span class="brand-mark">Uny FleetCom<sup>®</sup></span> × locatária</div>
           </div>
         </div>
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Traseira diagonal.png" alt="Caminhão Volvo FH 440 – traseira diagonal" />
-        <div class="slide-visual-legenda">
-          <span>Contrato em 48 meses.</span>
-          <span class="slide-tag">Contrato</span>
-        </div>
       </div>
     </section>
 
@@ -731,10 +766,6 @@
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Lateral esquerda.png" alt="Caminhão Volvo FH 440 – lateral esquerda" />
-        <div class="slide-visual-legenda">
-          <span>Transição de posse ao final do contrato.</span>
-          <span class="slide-tag">Opção de compra</span>
-        </div>
       </div>
     </section>
 
@@ -755,10 +786,6 @@
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Interior bancos.png" alt="Interior dos bancos do caminhão" />
-        <div class="slide-visual-legenda">
-          <span>Interior do veículo — conforto e preparação.</span>
-          <span class="slide-tag">Pronto para operar</span>
-        </div>
       </div>
     </section>
 
@@ -779,10 +806,6 @@
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Traseira diagonal.png" alt="Traseira diagonal do conjunto com carreta" />
-        <div class="slide-visual-legenda">
-          <span>Conjunto com carreta em comodato.</span>
-          <span class="slide-tag">Comodato</span>
-        </div>
       </div>
     </section>
 
@@ -803,10 +826,6 @@
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Interior cama.png" alt="Interior da cama do caminhão" />
-        <div class="slide-visual-legenda">
-          <span>Conservação integral da cabine.</span>
-          <span class="slide-tag">Responsabilidade operacional</span>
-        </div>
       </div>
     </section>
 
@@ -851,10 +870,6 @@
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Frontal diagonal.png" alt="Caminhão Volvo FH 440 – frontal diagonal" />
-        <div class="slide-visual-legenda">
-          <span>Veículo da proposta ilustrativa.</span>
-          <span class="slide-tag">Exemplo ilustrativo</span>
-        </div>
       </div>
     </section>
 
@@ -877,20 +892,16 @@
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo FH 440 – frontal" />
-        <div class="slide-visual-legenda">
-          <span>Imagem de fechamento.</span>
-          <span class="slide-tag">Próximos passos</span>
-        </div>
       </div>
     </section>
 
     <!-- SLIDE 10 -->
     <section class="slide" id="slide-10" aria-labelledby="t10" aria-hidden="true">
       <div class="slide-texto">
-        <h2 id="t10" class="slide-titulo">Conheça na prática o Programa Uny FleetCom</h2>
+        <h2 id="t10" class="slide-titulo">Conheça na prática o Programa <span class="brand-mark">Uny FleetCom<sup>®</sup></span></h2>
         <p class="slide-desc">
           Este material é um resumo institucional para apoio à apresentação comercial
-          do Programa de Locação com Opção de Compra da Uny FleetCom.
+          do Programa de Locação com Opção de Compra da <span class="brand-mark">Uny FleetCom<sup>®</sup></span>.
         </p>
         <ul class="slide-lista">
           <li>Material institucional para apresentação comercial.</li>
@@ -898,16 +909,12 @@
           <li>Complementado por propostas individuais e contratos específicos.</li>
         </ul>
         <p style="margin-top:12px; font-size:13px;">
-          Entre em contato com o time Uny FleetCom para conhecer a disponibilidade de
+          Entre em contato com o time <span class="brand-mark">Uny FleetCom<sup>®</sup></span> para conhecer a disponibilidade de
           unidades, condições específicas e adequação à sua operação.
         </p>
       </div>
       <div class="slide-visual">
         <img src="assets/ppt_media/Volvo FH 440 - Frontal.png" alt="Caminhão Volvo FH 440 – frontal" />
-        <div class="slide-visual-legenda">
-          <span>Material institucional Uny FleetCom.</span>
-          <span class="slide-tag">Encerramento</span>
-        </div>
       </div>
     </section>
 
@@ -929,13 +936,22 @@
         </button>
       </div>
 
-      <button class="nav-btn-cta" id="btnProposta">
-        Ver proposta ilustrativa →
-      </button>
-
       <div class="nav-dica" aria-hidden="true">
         <span>Teclas: ← →</span>
       </div>
+
+      <div class="progress-row">
+        <span class="progress-label">
+          <strong id="lblAtual">1</strong> de <span id="lblTotal">10</span>
+        </span>
+        <div class="progress-bar-bg" aria-hidden="true">
+          <div class="progress-bar-fill" id="barraProgresso"></div>
+        </div>
+      </div>
+
+      <button class="nav-btn-cta" id="btnProposta">
+        Ver proposta ilustrativa →
+      </button>
 
     </nav>
   </main>
@@ -950,7 +966,7 @@
       * Volvo FH 440 — imagens para fins ilustrativos. Volvo é marca registrada da Volvo Trademark Holding AB.
     </div>
     <div>
-      © Uny FleetCom — material institucional, não substitui proposta nem contrato específico.
+      © <span class="brand-mark">Uny FleetCom<sup>®</sup></span> — material institucional, não substitui proposta nem contrato específico.
     </div>
   </footer>
 

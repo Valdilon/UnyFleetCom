@@ -1,4 +1,4 @@
-# Programa de Locacao com Opcao de Compra - Uny FleetCom
+# Programa de Locacao com Opcao de Compra - Uny FleetCom<sup>®</sup>
 
 Apresentacao em HTML com navegacao por slides, layout responsivo e recursos visuais para exibicao em desktop, tablet e celular.
 
